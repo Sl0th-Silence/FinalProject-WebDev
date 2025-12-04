@@ -1,0 +1,40 @@
+Helpful install list:
+
+npm install...
+    express             --server
+    dotenv              --shhhhh!
+    mongoose            --mongo-convo
+    cors                --side-step
+    axios               --better than fetch
+    bcrpyt              --secret
+    js-cookie           --SINGLE, not cookies
+    react-router-dom    --Links within pg "adjust view"
+
+
+Part B: Authentication
+
+Every user needs to be authenticated to use the app.
+The credentials should be saved in the database and 
+authentication will occur on the backend server.
+Once a user is authenticated, a cookie token (jwt)
+is created and stored in the browser. This token will
+confirm authentication to enable routing to the
+locked pages, which we will call "private routing".
+Once a user logs out, their authentication cookie must
+be deleted from the browser and the app's private router
+should be locked.
+
+Part C: Private Routing
+
+Routes("/main", "/add-product", "/edit-product") will be
+considered private routes. As explained above, you will
+need to be authenticated as the "admin" user before
+accessing them. Therefore, you will need to design your
+routing with this in mind.
+
+Submission: 
+
+Each team should submit a gitHub link to the project on
+the blackboard sumbission page.
+
+DUE: Friday, December 12, 2025, midnight.
