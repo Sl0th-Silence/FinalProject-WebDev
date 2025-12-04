@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import products from "./data/products";
 import GroceriesAppContainer from "./Components/GroceriesAppContainer";
+import PageNotFound from "./Components/PageNotFound";
+import NotAuthorizedPage from "./Components/NotAuthorizedPage";
 
 function App() {
   return (
