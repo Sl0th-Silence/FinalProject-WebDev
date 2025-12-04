@@ -4,20 +4,22 @@ import products from "./data/products";
 import GroceriesAppContainer from "./Components/GroceriesAppContainer";
 import PageNotFound from "./Components/PageNotFound";
 import NotAuthorizedPage from "./Components/NotAuthorizedPage";
+import CreateUserPage from "./Components/CreatePage";
+import LoginPage from "./Components/LoginPage";
 
 function App() {
   return (
     <>
-      <Rouer>
+      <Router>
         <Routes>
           {/*<GroceriesAppContainer products={products} /> */}
-          <Route path="/" element={<LoginPage/>} />
-          <Route path="/create-user" element={<CreatePage />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/create-user" element={<CreateUserPage />} />
           <Route path="/not-authorized" element={<NotAuthorizedPage />} />
           <Route path="/main" element={<GroceriesAppContainer />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-      </Rouer>
+      </Router>
     </>
   );
 }

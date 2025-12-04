@@ -11,3 +11,11 @@ tgere is also a link to ROUTE("/create-user")
 to create a new user on the database. 
 SEE SCREENSHOTS ON BLACKBOARD...
 */
+
+export default function LoginPage() {
+  return (
+    <div>
+      <p>This is a placeholder to remove the errors</p>
+    </div>
+  );
+}
