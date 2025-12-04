@@ -1,3 +1,28 @@
+/*
+ROUTE: ("/main")
+
+this is the main app route. once the username is authenticated,
+the page will display the InventoryCards component. 
+Page should show:
+-> EDIT, DELETE and ADD NEW PRODUCT buttons if(username === "admin")
+Otherwise, these buttons should NOT appear if you are any other user.
+
+You need to add a new navigation bar at the top of the page that
+includes a welcome message with:
+-> the currently logged-in username
+-> a logout button
+-> a link to the login page
+
+When the user logs out, the page will navigate to ROUTE("/")
+and then return to the login page.
+
+Additionally, the add and edit forms,which used to appear at the top 
+of the app will be moved to their respective pages. A new button will 
+be added to direct users to ROUTE("/add-product"), and the edit buttons
+should navigate to ROUTE("/edit-product"). **SEE SCREENSHOT ON B.B.
+
+*/
+
 import { useState, useEffect } from "react";
 import CartContainer from "./CartContainer";
 import ProductsContainer from "./ProductsContainer";
