@@ -86,3 +86,24 @@ server.patch("/products/:id", async (request, response) => {
     console.log(error.message);
   }
 });
+
+//Create User Route
+//register route
+server.post("/create-user", async (request, response) => {
+  const { username, password } = request.body;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      username,
+      password: hashedPassword,
+    });
+    await newUser.save();
+    response.send({
+      message: "Congrats Create User Successful!",
+    });
+  } catch (error) {
+    response
+      .status(500)
+      .send({ message: "User already exists, please use another username" });
+  }
+});
