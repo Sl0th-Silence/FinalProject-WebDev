@@ -13,3 +13,57 @@ to log in with the new user.
 
 **SEE PHOTOS ON B.B.
 */
+
+//Brynn Landry
+
+//Create User Page
+import FormComponent from "./FormComponent";
+import axios from "axios";
+import { useState } from "react";
+
+export default function CreateUserPage() {
+  //states
+  //form data state
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  //post response state
+  const [postResponse, setPostResponse] = useState("");
+
+  //handlers
+  //on change handler to update form data state
+  const handleOnChange = (e) => {
+    setFormData((prevData) => {
+      return { ...prevData, [e.target.name]: e.target.value };
+    });
+  };
+  //on submit handler to post form data to server
+  const handleRegister = async () => {
+    try {
+      const response = await axios.post("http://localhost:3000/create-user", {
+        ...formData,
+      });
+      setPostResponse(response.data.message);
+    } catch (error) {
+      setPostResponse(error.response.data.message || "No Sir!");
+    }
+  };
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    handleRegister();
+    setFormData({ username: "", password: "" });
+  };
+
+  return (
+    <div>
+      <h2>Create New User</h2>
+      <FormComponent
+        formData={formData}
+        handleOnChange={handleOnChange}
+        handleOnSubmit={handleOnSubmit}
+        currentPage="create-user"
+        nextPage=""
+        postResponse={postResponse}
+      />
+    </div>
+  );
+}
