@@ -22,3 +22,7 @@ the product name and a back-to-main-page link.
 **SEE BlackBoard for photos...
 
 */
+
+
+// need to delete this as inventory form and product form are the same things 
+// and we already have the product form
