@@ -6,6 +6,7 @@ import PageNotFound from "./Components/PageNotFound";
 import NotAuthorizedPage from "./Components/NotAuthorizedPage";
 import CreateUserPage from "./Components/CreatePage";
 import LoginPage from "./Components/LoginPage";
+import ProductFormPage from "./Components/ProductFormPage";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
           <Route path="/create-user" element={<CreateUserPage />} />
           <Route path="/not-authorized" element={<NotAuthorizedPage />} />
           <Route path="/main" element={<GroceriesAppContainer />} />
+          <Route path="/add-product" element={<ProductFormPage/>}/>
+          <Route path="/edit-product/:id" element={<ProductFormPage/>}/>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
