@@ -8,6 +8,7 @@ export default function ProductsContainer({
   productQuantity,
   handleEditProduct,
   handleDeleteProduct,
+  currentUser,
 }) {
   return (
     <div className="ProductsContainer">
@@ -21,6 +22,7 @@ export default function ProductsContainer({
           productQuantity={
             productQuantity.find((p) => p.id === product.id).quantity
           }
+          currentUser={currentUser}
           handleEditProduct={handleEditProduct}
           handleDeleteProduct={handleDeleteProduct}
         />

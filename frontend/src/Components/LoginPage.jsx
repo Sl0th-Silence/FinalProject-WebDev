@@ -13,10 +13,15 @@ import { Link, useNavigate } from "react-router-dom";
 import FormComponent from "./FormComponent";
 import { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
   // states
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    isAdmin: false,
+  });
   const [postResponse, setPostResponse] = useState("");
 
   // navigate
@@ -48,10 +53,12 @@ export default function LoginPage() {
       });
       setPostResponse(response.data.message);
       if (response.status === 201) {
+        //We also need to set the cookies!
+        Cookies.set("jwt-authorize", response.data.token);
         navigate("/main");
       }
     } catch (error) {
-      setPostResponse(error?.response?.message || "Login Failed");
+      setPostResponse(error.response.data.message || "Login Failed");
     }
   };
 
@@ -71,7 +78,7 @@ export default function LoginPage() {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     handleLogin();
-    setFormData({ username: "", password: "" });
+    setFormData({ username: "", password: "", isAdmin: false });
   };
 
   return (
@@ -80,6 +87,7 @@ export default function LoginPage() {
       <br />
       <FormComponent
         formData={formData}
+        setFormData={setFormData}
         handleOnChange={handleOnChange}
         handleOnSubmit={handleOnSubmit}
         nextPage="create-user"

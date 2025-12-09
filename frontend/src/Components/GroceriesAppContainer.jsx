@@ -29,8 +29,14 @@ import ProductsContainer from "./ProductsContainer";
 import NavBar from "./NavBar";
 import axios from "axios";
 import ProductForm from "./ProductForm";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 export default function GroceriesAppContainer() {
+  //Set navigate
+  const navigate = useNavigate();
+
   /////////// States ///////////
   const [productQuantity, setProductQuantity] = useState();
   const [cartList, setCartList] = useState([]);
@@ -44,7 +50,37 @@ export default function GroceriesAppContainer() {
   });
   const [isEditing, setIsEditing] = useState(false);
 
+  // FINAL STATES //
+  // JAY //
+
+  //TODO Check if user is a user or Admin
+  //Maybe we could add another section per user?
+  //Or maybe its just a naming convention?
+
+  const [currentUser, setCurrentUser] = useState(() => {
+    //We need to grab the cookie and decode it
+    const jwtToken = Cookies.get("jwt-authorize");
+    if (!jwtToken) {
+      return "";
+    }
+    try {
+      const jwtDecodedToken = jwtDecode(jwtToken);
+      return {
+        username: jwtDecodedToken.username,
+        isAdmin: jwtDecodedToken.isAdmin,
+      };
+    } catch {
+      return "";
+    }
+  });
+
   //////////useEffect////////
+  //Check user
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/not-authorized");
+    }
+  }, []);
 
   useEffect(() => {
     handleProductsFromDB();
@@ -219,10 +255,27 @@ export default function GroceriesAppContainer() {
   const handleClearCart = () => {
     setCartList([]);
   };
+
+  //LOG OFF
+  // JAY
+
+  //Handle log off
+  const handleLogOff = () => {
+    Cookies.remove("jwt-authorize");
+    setCurrentUser(null);
+    navigate("/");
+  };
+
+  console.log(currentUser);
+
   /////////Renderer
   return (
     <div>
-      <NavBar quantity={cartList.length} />
+      <NavBar
+        quantity={cartList.length}
+        handleLogOff={handleLogOff}
+        currentUser={currentUser}
+      />
       <div className="GroceriesApp-Container">
         <ProductForm
           handleOnSubmit={handleOnSubmit}
@@ -232,6 +285,7 @@ export default function GroceriesAppContainer() {
           isEditing={isEditing}
         />
         <ProductsContainer
+          currentUser={currentUser} //Send the user to the products for admin powers
           products={productList}
           handleAddQuantity={handleAddQuantity}
           handleRemoveQuantity={handleRemoveQuantity}
