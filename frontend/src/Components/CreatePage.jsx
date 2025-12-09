@@ -17,6 +17,7 @@ to log in with the new user.
 //Brynn Landry
 
 //Create User Page
+import { Link, useNavigate } from "react-router-dom";
 import FormComponent from "./FormComponent";
 import axios from "axios";
 import { useState } from "react";
@@ -24,7 +25,11 @@ import { useState } from "react";
 export default function CreateUserPage() {
   //states
   //form data state
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({
+    username: "",
+    isAdmin: false,
+    password: "",
+  });
   //post response state
   const [postResponse, setPostResponse] = useState("");
 
@@ -53,20 +58,26 @@ export default function CreateUserPage() {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     handleRegister();
-    setFormData({ username: "", password: "" });
+    setFormData({ username: "", password: "", isAdmin: false });
   };
 
   return (
     <div>
       <h2>Create New User</h2>
       <FormComponent
+        setFormData={setFormData}
         formData={formData}
         handleOnChange={handleOnChange}
         handleOnSubmit={handleOnSubmit}
         currentPage="create-user"
         nextPage="login"
         postResponse={postResponse}
-      />
+      ></FormComponent>
+      <p>
+        Already a Member?
+        <Link to="/"> CLICK HERE </Link>
+        TO LOG IN!
+      </p>
     </div>
   );
 }

@@ -94,11 +94,12 @@ server.patch("/products/:id", async (request, response) => {
 //Create User Route
 //register route
 server.post("/create-user", async (request, response) => {
-  const { username, password } = request.body;
+  const { username, isAdmin, password } = request.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       username,
+      isAdmin: !!isAdmin,
       password: hashedPassword,
     });
     await newUser.save();
@@ -129,7 +130,10 @@ server.post("/main", async (request, response) => {
         .send({ message: "incorrect username or password" });
     }
 
-    const jwtToken = jwt.sign({ id: user._id, username }, SECRET_KEY);
+    const jwtToken = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin, username },
+      SECRET_KEY
+    );
     return response
       .status(201)
       .send({ message: "User Authenticated", token: jwtToken });

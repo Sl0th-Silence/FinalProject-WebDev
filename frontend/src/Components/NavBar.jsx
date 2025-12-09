@@ -1,8 +1,14 @@
-export default function NavBar({ quantity }) {
+export default function NavBar({ quantity, handleLogOff, currentUser }) {
   return (
     <nav className="NavBar">
       <div className="NavDiv NavUser">
-        <h3>Hello, username</h3>
+        <h3>
+          Hello,{" "}
+          {currentUser?.isAdmin === true
+            ? " Admin " + currentUser?.username
+            : currentUser?.username}{" "}
+        </h3>
+        <button onClick={() => handleLogOff()}>LogOff</button>
       </div>
       <div className="NavDiv NavTitle">
         <h2>Groceries App 🍎</h2>

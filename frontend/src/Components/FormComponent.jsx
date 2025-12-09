@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 //Brynn Landry
 
 export default function FormComponent({
+  setFormData,
   formData,
   handleOnChange,
   handleOnSubmit,
@@ -31,6 +32,20 @@ export default function FormComponent({
           id="password"
           value={formData.password}
           onChange={handleOnChange}
+        />
+        <br />
+        <br />
+        {/* Added checkbox for Admin */}
+        <label htmlFor="isAdmin">
+          {currentPage === "login" ? "" : "Admin"}
+        </label>
+        <input
+          type={currentPage === "login" ? "hidden" : "checkbox"}
+          name="isAdmin"
+          checked={formData.isAdmin}
+          onChange={(e) =>
+            setFormData({ ...formData, isAdmin: e.target.checked })
+          }
         />
         <br />
         <br />
