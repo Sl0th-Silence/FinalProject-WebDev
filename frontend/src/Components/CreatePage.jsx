@@ -42,6 +42,9 @@ export default function CreateUserPage() {
         ...formData,
       });
       setPostResponse(response.data.message);
+
+      // if postResponse === successful, show <Link to="/">Go To Login</Link>
+      // not sure if logic belongs here or elsewhere...
     } catch (error) {
       setPostResponse(error.response.data.message || "No Sir!");
     }
@@ -61,7 +64,7 @@ export default function CreateUserPage() {
         handleOnChange={handleOnChange}
         handleOnSubmit={handleOnSubmit}
         currentPage="create-user"
-        nextPage=""
+        nextPage="login"
         postResponse={postResponse}
       />
     </div>
