@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //Brynn Landry
 
@@ -7,13 +7,14 @@ export default function FormComponent({
   handleOnChange,
   handleOnSubmit,
   nextPage,
+  currentPage,
   postResponse,
 }) {
   const navigate = useNavigate();
   return (
     <div>
       <form onSubmit={handleOnSubmit}>
-        <label html="username">UserName:</label>
+        <label htmlFor="username">UserName:</label>
         <input
           type="text"
           name="username"
@@ -22,7 +23,8 @@ export default function FormComponent({
           onChange={handleOnChange}
         />
         <br />
-        <label html="password">Password:</label>
+        <br />
+        <label htmlFor="password">Password:</label>
         <input
           type="password"
           name="password"
@@ -31,15 +33,18 @@ export default function FormComponent({
           onChange={handleOnChange}
         />
         <br />
-        <button>
-          {subBtn === "Login" ? currentPage === "login" : "Create User"}
+        <br />
+        <button type="submit">
+          {/* {subBtn === "Login" ? currentPage === "login" : "Create User"} */}
+          {currentPage === "login" ? "login" : "Create User"}
         </button>
       </form>
       <p>{postResponse}</p>
-
+      {/*
       <button onClick={() => navigate(`/${nextPage}`)}>
         {nextPage === "" ? "Go to Login Page" : "Go to Create User Page"}
       </button>
+      */}
     </div>
   );
 }

@@ -5,7 +5,11 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const Product = require("./models/product");
 require("dotenv").config();
-const { DB_URI } = process.env;
+const { DB_URI, SECRET_KEY } = process.env;
+
+const User = require("./models/user");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 server.use(cors());
 server.use(express.json());
@@ -99,11 +103,37 @@ server.post("/create-user", async (request, response) => {
     });
     await newUser.save();
     response.send({
-      message: "Congrats Create User Successful!",
+      message: "Congrats User Created Successfully!",
     });
   } catch (error) {
     response
       .status(500)
       .send({ message: "User already exists, please use another username" });
+  }
+});
+
+// login existing user route
+server.post("/main", async (request, response) => {
+  const { username, password } = request.body;
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return response
+        .status(404)
+        .send({ message: "User does not exist in db." });
+    }
+    const match = await bcrypt.compare(password, user.password); // compare to password in db
+    if (!match) {
+      return response
+        .status(403)
+        .send({ message: "incorrect username or password" });
+    }
+
+    const jwtToken = jwt.sign({ id: user._id, username }, SECRET_KEY);
+    return response
+      .status(201)
+      .send({ message: "User Authenticated", token: jwtToken });
+  } catch (error) {
+    response.status(500).send({ message: error.message });
   }
 });
