@@ -23,15 +23,48 @@ the product name and a back-to-main-page link.
 
 */
 
-// need to make it private
+// This page is used for both adding and editing products
+// Only accessible to admin users (private route)
+
 //Ridhi Bhandula
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProductForm from "./ProductForm";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 
 export default function ProductFormPage() {
+  const navigate = useNavigate();
+
+  // Get the current user from the JWT cookie
+  const [currentUser] = useState(() => {
+    const jwtToken = Cookies.get("jwt-authorize");
+    if(!jwtToken){
+      return"";
+    }
+    try {
+      const jwtDecodedToken = jwtDecode(jwtToken);
+      return {
+        username: jwtDecodedToken.username,
+        isAdmin: jwtDecodedToken.isAdmin,
+      };
+    } catch {
+      return "";
+    }
+  });
+
+  
+  // Redirect to not-authorized page if user is not admin
+  useEffect(() => {
+    if(!currentUser || !currentUser.isAdmin)
+    {
+      navigate("/not-authorized")
+    }
+
+  }, [currentUser, navigate])
+
   const [formData, setFormData] = useState({
     productName: "",
     brand: "",
@@ -42,6 +75,7 @@ export default function ProductFormPage() {
   const [postResponse, setPostResponse] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
+  // Reset form 
   const handleResetForm = () => {
     setFormData({
       productName: "",
@@ -55,6 +89,7 @@ export default function ProductFormPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Load product data to edit
    const handleOnEdit = async (id) => {
     try {
       const result = await axios.get(`http://localhost:3000/products/${id}`);
@@ -73,6 +108,7 @@ export default function ProductFormPage() {
     }
   };
 
+  // Update product 
   const handleOnUpdate = async (id) => {
     try {
       const result = await axios.patch(
