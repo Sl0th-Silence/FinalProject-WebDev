@@ -58,6 +58,7 @@ export default function LoginPage() {
         navigate("/main");
       }
     } catch (error) {
+      console.log(error);
       setPostResponse(error.response.data.message || "Login Failed");
     }
   };

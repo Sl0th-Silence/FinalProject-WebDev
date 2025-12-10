@@ -1,4 +1,8 @@
+import { Link } from "react-router-dom";
+
 export default function NavBar({ quantity, handleLogOff, currentUser }) {
+  console.log("NavBar currentUser:", currentUser);
+
   return (
     <nav className="NavBar">
       <div className="NavDiv NavUser">
@@ -10,8 +14,17 @@ export default function NavBar({ quantity, handleLogOff, currentUser }) {
         </h3>
         <button onClick={() => handleLogOff()}>LogOff</button>
       </div>
-      <div className="NavDiv NavTitle">
+      <div className="NavDiv NavTitle" textAlign="center">
         <h2>Groceries App 🍎</h2>
+
+        {/*******************************************************************************/}
+        {/*********** NEED TO ALIGN BUTTON TO CENTER BELOW GROCERIES APP TITLE **********/}
+        {/*******************************************************************************/}
+        {currentUser?.isAdmin === true && (
+          <Link to="/add-product">
+            <button> Add New Product </button>
+          </Link>
+        )}
       </div>
       <div className="NavDiv NavCart">
         <img

@@ -9,6 +9,8 @@ npm install...
     bcrpyt              --secret
     js-cookie           --SINGLE, not cookies
     react-router-dom    --Links within pg "adjust view"
+    jsonwebtoken
+    jwt-decode
 
 
 Part B: Authentication

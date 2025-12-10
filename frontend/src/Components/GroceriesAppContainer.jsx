@@ -28,9 +28,9 @@ import CartContainer from "./CartContainer";
 import ProductsContainer from "./ProductsContainer";
 import NavBar from "./NavBar";
 import axios from "axios";
-import ProductForm from "./ProductForm";
+// import ProductForm from "./ProductForm";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 export default function GroceriesAppContainer() {
@@ -73,6 +73,27 @@ export default function GroceriesAppContainer() {
       return "";
     }
   });
+
+  ////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////
+  /*
+  const [currentUser, setCurrentUser] = useState(() => {
+    const jwtToken = Cookies.get("jwt-authorize");
+    if (!jwtToken) {
+      return "";
+    }
+    try {
+      const decodedToken = jwtDecode(jwtToken);
+      return decodedToken.username;
+    } catch {
+      return "";
+    }
+  });
+*/
+  ////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////
 
   //////////useEffect////////
   //Check user
@@ -148,6 +169,7 @@ export default function GroceriesAppContainer() {
     });
     setIsEditing(true);
     setPostResponse("");
+    navigate(`/edit-product/${product._id}`);
   };
 
   const handleUpdateProduct = async (productId) => {
@@ -262,7 +284,7 @@ export default function GroceriesAppContainer() {
   //Handle log off
   const handleLogOff = () => {
     Cookies.remove("jwt-authorize");
-    setCurrentUser(null);
+    setCurrentUser("");
     navigate("/");
   };
 
@@ -277,13 +299,14 @@ export default function GroceriesAppContainer() {
         currentUser={currentUser}
       />
       <div className="GroceriesApp-Container">
-        <ProductForm
+        {/*        <ProductForm
           handleOnSubmit={handleOnSubmit}
           postResponse={postResponse}
           handleOnChange={handleOnChange}
           formData={formData}
           isEditing={isEditing}
         />
+*/}
         <ProductsContainer
           currentUser={currentUser} //Send the user to the products for admin powers
           products={productList}

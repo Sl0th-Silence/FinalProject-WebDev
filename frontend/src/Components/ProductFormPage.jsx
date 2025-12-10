@@ -33,7 +33,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import ProductForm from "./ProductForm";
 import Cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export default function ProductFormPage() {
   const navigate = useNavigate();
@@ -41,8 +41,8 @@ export default function ProductFormPage() {
   // Get the current user from the JWT cookie
   const [currentUser] = useState(() => {
     const jwtToken = Cookies.get("jwt-authorize");
-    if(!jwtToken){
-      return"";
+    if (!jwtToken) {
+      return "";
     }
     try {
       const jwtDecodedToken = jwtDecode(jwtToken);
@@ -55,15 +55,13 @@ export default function ProductFormPage() {
     }
   });
 
-  
   // Redirect to not-authorized page if user is not admin
   useEffect(() => {
-    if(!currentUser || !currentUser.isAdmin)
-    {
-      navigate("/not-authorized")
+    if (!currentUser || !currentUser.isAdmin) {
+      //if (!currentUser || currentUser.username !== "admin") {
+      navigate("/not-authorized");
     }
-
-  }, [currentUser, navigate])
+  }, [currentUser, navigate]);
 
   const [formData, setFormData] = useState({
     productName: "",
@@ -75,7 +73,7 @@ export default function ProductFormPage() {
   const [postResponse, setPostResponse] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
-  // Reset form 
+  // Reset form
   const handleResetForm = () => {
     setFormData({
       productName: "",
@@ -90,7 +88,7 @@ export default function ProductFormPage() {
   };
 
   // Load product data to edit
-   const handleOnEdit = async (id) => {
+  const handleOnEdit = async (id) => {
     try {
       const result = await axios.get(`http://localhost:3000/products/${id}`);
 
@@ -99,7 +97,7 @@ export default function ProductFormPage() {
         brand: result.data.brand,
         image: result.data.image,
         price: result.data.price,
-        _id: result.data._id, 
+        _id: result.data._id,
       });
 
       setIsEditing(true);
@@ -108,10 +106,13 @@ export default function ProductFormPage() {
     }
   };
 
-  // Update product 
+  // Update product
   const handleOnUpdate = async (id) => {
     try {
       const result = await axios.patch(
+        //////////////////////////////////////////////////
+        /////////////////////////////////////////////////
+        ////// problem is: I don't know how to shuffle over ${id}
         `http://localhost:3000/products/${id}`,
         formData
       );
@@ -132,7 +133,7 @@ export default function ProductFormPage() {
         setIsEditing(false);
       } else {
         const result = await axios.post(
-          "http://localhost:3000/products",
+          "http://localhost:3000/add-product",
           formData
         );
         setPostResponse(result.data.message || "Product added!");
