@@ -33,7 +33,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import ProductForm from "./ProductForm";
 import Cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 export default function ProductFormPage() {
   const navigate = useNavigate();
