@@ -55,6 +55,15 @@ export default function ProductFormPage() {
     }
   });
 
+ const [formData, setFormData] = useState({
+    productName: "",
+    brand: "",
+    image: "",
+    price: "",
+  });
+  const [postResponse, setPostResponse] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+
   // Redirect to not-authorized page if user is not admin
   useEffect(() => {
     if (!currentUser || !currentUser.isAdmin) {
@@ -63,16 +72,7 @@ export default function ProductFormPage() {
     }
   }, [currentUser, navigate]);
 
-  const [formData, setFormData] = useState({
-    productName: "",
-    brand: "",
-    image: "",
-    price: "",
-  });
-
-  const [postResponse, setPostResponse] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
-
+ 
   // Reset form
   const handleResetForm = () => {
     setFormData({
